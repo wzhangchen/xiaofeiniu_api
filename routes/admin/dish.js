@@ -2,7 +2,7 @@
  * 菜品相关的路由
  */
 const express=require("express");
-var pool=require("../../pool.js");
+const pool=require("../../pool.js");
 var router=express.Router();
 
 /**
@@ -55,7 +55,7 @@ router.post("/image",upload.single("dishImg"),(req,res)=>{
   var tmpFile=req.file.path;//临时文件名
   var suffix=req.file.originalname.substring(req.file.originalname.lastIndexOf("."))//原始文件名的后缀
   var newFile=randFileName(suffix);//目标文件名
-  fs.rename(tempFile,"img/dish/"+newFile,()=>{//临时文件转移
+  fs.rename(tmpFile,"img/dish/"+newFile,()=>{//临时文件转移
     res.send({code:200,msg:"upload succ",fileName:newFile});
   })
 })
@@ -71,11 +71,40 @@ function randFileName(suffix){
 
 /**
  * POST/admin/dish/
+ * 请求参数：{title:"xxx",imgUrl:"..jpg",price:xx,detail:""，categoryId:xx}
  * 添加一个新的菜品
+ * 输出消息：
+ * {code:200,msg:"dish added succ",dishId:xx}
+ */
+router.post("/",(req,res)=>{
+  pool.query("INSERT INTO xfn_dish SET ?",req.body,(err,result)=>{
+    if(err)throw err;
+    res.send({code:200,msg:"dish added succ",dishId:result.insertId})//将insert语句产生的自增编号输出给客户端
+  })
+})
+
+
+
+/**
+ * DELETE/admin/dish/:did
+ * 根据指定菜品编号删除菜品
+ * 输出数据：
+ * {code:200,msg:"dish deleted succ"}
+ * {code:400,msg:"dish not exists"}
+ * 
  */
 
 
 
+ /**
+ * PUT/admin/dish/
+ * 请求参数：{did:xx,title:"xxx",imgUrl:"..jpg",price:xx,detail:""，categoryId:xx}
+ * 根据指定菜品编号修改菜品
+ * 输出数据：
+ * {code:200,msg:"dish update succ"}
+ * {code:400,msg:"dish not exists"}
+ * 
+ */
 
 
 module.exports=router;

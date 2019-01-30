@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 //挂载路由
 app.use("/admin/category",categoryRouter);
 app.use("/admin",adminRouter);
+app.use("/admin/dish",dishRouter);
 app.use("/admin/settings",settingsRouter);
 app.use("/admin/table",tableRouter);
 
