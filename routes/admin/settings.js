@@ -1,5 +1,5 @@
 const express=require("express")
-var router=express.createRouter();
+var router=express.Router();
 
 
 
