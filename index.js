@@ -13,8 +13,8 @@ const tableRouter=require("./routes/admin/table");
 
 
 //创建HTTP应用服务器
-var app=express();
-app.listen(PORT,()=>{
+var app=express();   
+app.listen(PORT,()=>{   
   console.log("Server Listening:"+PORT+"...")
 });
 //使用cors中间件解决跨域 ;位置：服务器后挂载路由前
